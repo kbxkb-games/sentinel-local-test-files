@@ -1,0 +1,1004 @@
+terraform_version = "0.12.25"
+
+planned_values = {
+	"outputs": {
+		"public_dns": {
+			"name":      "public_dns",
+			"sensitive": false,
+			"value":     undefined,
+		},
+		"public_ip": {
+			"name":      "public_ip",
+			"sensitive": false,
+			"value":     undefined,
+		},
+	},
+	"resources": {
+		"module.server.aws_instance.web[0]": {
+			"address":        "module.server.aws_instance.web[0]",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          0,
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "web",
+			"provider_name":  "aws",
+			"tainted":        false,
+			"type":           "aws_instance",
+			"values": {
+				"ami": "ami-0735ea082a1534cac",
+				"credit_specification":                 [],
+				"disable_api_termination":              null,
+				"ebs_optimized":                        null,
+				"get_password_data":                    false,
+				"hibernation":                          null,
+				"iam_instance_profile":                 null,
+				"instance_initiated_shutdown_behavior": null,
+				"instance_type":                        "t2.medium",
+				"monitoring":                           null,
+				"source_dest_check":                    true,
+				"tags": {
+					"Identity": "fox",
+					"Name":     "fox web 1/1",
+				},
+				"timeouts":         null,
+				"user_data":        null,
+				"user_data_base64": null,
+			},
+		},
+		"module.server.aws_key_pair.default": {
+			"address":        "module.server.aws_key_pair.default",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "default",
+			"provider_name":  "aws",
+			"tainted":        false,
+			"type":           "aws_key_pair",
+			"values": {
+				"key_name":        "fox-key",
+				"key_name_prefix": null,
+				"public_key":      "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+				"tags":            null,
+			},
+		},
+		"module.server.aws_security_group.default": {
+			"address":        "module.server.aws_security_group.default",
+			"depends_on":     [],
+			"deposed_key":    "",
+			"index":          null,
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "default",
+			"provider_name":  "aws",
+			"tainted":        false,
+			"type":           "aws_security_group",
+			"values": {
+				"description": "Managed by Terraform",
+				"egress": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        0,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "-1",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          0,
+					},
+				],
+				"ingress": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        22,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          22,
+					},
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        80,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          80,
+					},
+				],
+				"name_prefix":            "fox",
+				"revoke_rules_on_delete": false,
+				"tags": {
+					"Created-by": "Terraform",
+					"Identity":   "fox",
+				},
+				"timeouts": null,
+			},
+		},
+	},
+}
+
+variables = {
+	"ami": {
+		"name":  "ami",
+		"value": "ami-0735ea082a1534cac",
+	},
+	"identity": {
+		"name":  "identity",
+		"value": "fox",
+	},
+	"ingress_cidr": {
+		"name":  "ingress_cidr",
+		"value": "0.0.0.0/0",
+	},
+	"num_webs": {
+		"name":  "num_webs",
+		"value": "1",
+	},
+	"private_key": {
+		"name":  "private_key",
+		"value": "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQCNhoNqeaK+eJnULuoqpCPGmLF2KtUeGxOwpm+GdmdW+3PkmfNp\naqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ssb2t7UaNiTdtNzKJ+PLmMYjjY\nvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXEF8RSGHc1Ogv7BJdJlwIDAQAB\nAoGATjhwXeMInfmOHAYqCpNZ6qPuQX9+9vrEMThsH4dFqn+kGE82h6cV8hU1X5UB\nQXC64HOZMo+bVHfcfgSDPEpYL7bIvWUd4J15ZmZlMVnIFz9gwAuj32/gFQZRjulr\nnjMJYJdf20BV09ULeRkmrAWLHHBNE0SvtwV5S/1YqCx4XyECQQD+uTPXUsoXwwEs\nW6RpVKXBJRLQTVD0n4BojrLj2UalijLstj0UUZS1nuuDj198IUGpbKg6ugpxabnk\n0jN1u3lJAkEAjjwVXCeii1nQh9p+zmUs4wxxdCb18ewNzikm8OkphiEXWwaSNKMQ\nl/dNCh/7AfCrBacfjetXHz2kyVcyrf6L3wJAV16RAIc+GD5j1aItV4+YNxKPTHFo\nli9rbPGdPHfXOoqXgwfTFXgSCOXUpFB2EO6bRhCl91a+pD3+bBUJX5WJOQJACLWb\nJTp0FI5aW4dAjojZd8myRMeB9d9bdQ1GCihs1369PGCpoTl+8Z8+A2mz6AmBn2X9\nY6ZOfmY66e1B+C+HBwJBAMvMGRVpY2BkNRrkwjn2O4BDWJv5Oma/OQPB/3IM1ZBw\nBmO1e8FKFalkEuAaVNXgDZzmhm93LIeAG327RpWoU1Q=\n-----END RSA PRIVATE KEY-----",
+	},
+	"public_key": {
+		"name":  "public_key",
+		"value": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+	},
+}
+
+resource_changes = {
+	"module.server.aws_instance.web[0]": {
+		"address": "module.server.aws_instance.web[0]",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"ami": "ami-0735ea082a1534cac",
+				"credit_specification":                 [],
+				"disable_api_termination":              null,
+				"ebs_optimized":                        null,
+				"get_password_data":                    false,
+				"hibernation":                          null,
+				"iam_instance_profile":                 null,
+				"instance_initiated_shutdown_behavior": null,
+				"instance_type":                        "t2.medium",
+				"monitoring":                           null,
+				"source_dest_check":                    true,
+				"tags": {
+					"Identity": "fox",
+					"Name":     "fox web 1/1",
+				},
+				"timeouts":         null,
+				"user_data":        null,
+				"user_data_base64": null,
+			},
+			"after_unknown": {
+				"arn": true,
+				"associate_public_ip_address":  true,
+				"availability_zone":            true,
+				"cpu_core_count":               true,
+				"cpu_threads_per_core":         true,
+				"credit_specification":         [],
+				"ebs_block_device":             true,
+				"ephemeral_block_device":       true,
+				"host_id":                      true,
+				"id":                           true,
+				"instance_state":               true,
+				"ipv6_address_count":           true,
+				"ipv6_addresses":               true,
+				"key_name":                     true,
+				"metadata_options":             true,
+				"network_interface":            true,
+				"network_interface_id":         true,
+				"outpost_arn":                  true,
+				"password_data":                true,
+				"placement_group":              true,
+				"primary_network_interface_id": true,
+				"private_dns":                  true,
+				"private_ip":                   true,
+				"public_dns":                   true,
+				"public_ip":                    true,
+				"root_block_device":            true,
+				"security_groups":              true,
+				"subnet_id":                    true,
+				"tags":                         {},
+				"tenancy":                      true,
+				"volume_tags":                  true,
+				"vpc_security_group_ids":       true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          0,
+		"mode":           "managed",
+		"module_address": "module.server",
+		"name":           "web",
+		"provider_name":  "aws",
+		"type":           "aws_instance",
+	},
+	"module.server.aws_key_pair.default": {
+		"address": "module.server.aws_key_pair.default",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"key_name":        "fox-key",
+				"key_name_prefix": null,
+				"public_key":      "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+				"tags":            null,
+			},
+			"after_unknown": {
+				"fingerprint": true,
+				"id":          true,
+				"key_pair_id": true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.server",
+		"name":           "default",
+		"provider_name":  "aws",
+		"type":           "aws_key_pair",
+	},
+	"module.server.aws_security_group.default": {
+		"address": "module.server.aws_security_group.default",
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after": {
+				"description": "Managed by Terraform",
+				"egress": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        0,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "-1",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          0,
+					},
+				],
+				"ingress": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        22,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          22,
+					},
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "",
+						"from_port":        80,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          80,
+					},
+				],
+				"name_prefix":            "fox",
+				"revoke_rules_on_delete": false,
+				"tags": {
+					"Created-by": "Terraform",
+					"Identity":   "fox",
+				},
+				"timeouts": null,
+			},
+			"after_unknown": {
+				"arn": true,
+				"egress": [
+					{
+						"cidr_blocks": [
+							false,
+						],
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"security_groups":  [],
+					},
+				],
+				"id": true,
+				"ingress": [
+					{
+						"cidr_blocks": [
+							false,
+						],
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"security_groups":  [],
+					},
+					{
+						"cidr_blocks": [
+							false,
+						],
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"security_groups":  [],
+					},
+				],
+				"name":     true,
+				"owner_id": true,
+				"tags":     {},
+				"vpc_id":   true,
+			},
+			"before": null,
+		},
+		"deposed":        "",
+		"index":          null,
+		"mode":           "managed",
+		"module_address": "module.server",
+		"name":           "default",
+		"provider_name":  "aws",
+		"type":           "aws_security_group",
+	},
+}
+
+output_changes = {
+	"public_dns": {
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after":         undefined,
+			"after_unknown": true,
+			"before":        null,
+		},
+		"name": "public_dns",
+	},
+	"public_ip": {
+		"change": {
+			"actions": [
+				"create",
+			],
+			"after":         undefined,
+			"after_unknown": true,
+			"before":        null,
+		},
+		"name": "public_ip",
+	},
+}
+
+raw = {
+	"configuration": {
+		"provider_config": {
+			"aws": {
+				"name": "aws",
+			},
+		},
+		"root_module": {
+			"module_calls": {
+				"server": {
+					"expressions": {
+						"ami": {
+							"references": [
+								"var.ami",
+							],
+						},
+						"identity": {
+							"references": [
+								"var.identity",
+							],
+						},
+						"ingress_cidr": {
+							"references": [
+								"var.ingress_cidr",
+							],
+						},
+						"num_webs": {
+							"references": [
+								"var.num_webs",
+							],
+						},
+						"private_key": {
+							"references": [
+								"var.private_key",
+							],
+						},
+						"public_key": {
+							"references": [
+								"var.public_key",
+							],
+						},
+					},
+					"module": {
+						"outputs": {
+							"public_dns": {
+								"expression": {
+									"references": [
+										"aws_instance.web",
+									],
+								},
+							},
+							"public_ip": {
+								"expression": {
+									"references": [
+										"aws_instance.web",
+									],
+								},
+							},
+						},
+						"resources": [
+							{
+								"address": "aws_instance.web",
+								"count_expression": {
+									"references": [
+										"var.num_webs",
+									],
+								},
+								"expressions": {
+									"ami": {
+										"references": [
+											"var.ami",
+										],
+									},
+									"instance_type": {
+										"constant_value": "t2.medium",
+									},
+									"key_name": {
+										"references": [
+											"aws_key_pair.default",
+										],
+									},
+									"tags": {
+										"references": [
+											"var.identity",
+											"count.index",
+											"var.num_webs",
+											"var.identity",
+										],
+									},
+									"vpc_security_group_ids": {
+										"references": [
+											"aws_security_group.default",
+										],
+									},
+								},
+								"mode":                "managed",
+								"name":                "web",
+								"provider_config_key": "server:aws",
+								"provisioners": [
+									{
+										"expressions": {
+											"destination": {
+												"constant_value": "/tmp/",
+											},
+											"source": {
+												"constant_value": "assets",
+											},
+										},
+										"type": "file",
+									},
+									{
+										"expressions": {
+											"inline": {
+												"constant_value": [
+													"sudo sh /tmp/assets/setup-web.sh",
+												],
+											},
+										},
+										"type": "remote-exec",
+									},
+								],
+								"schema_version": 1,
+								"type":           "aws_instance",
+							},
+							{
+								"address": "aws_key_pair.default",
+								"expressions": {
+									"key_name": {
+										"references": [
+											"var.identity",
+										],
+									},
+									"public_key": {
+										"references": [
+											"var.public_key",
+										],
+									},
+								},
+								"mode":                "managed",
+								"name":                "default",
+								"provider_config_key": "server:aws",
+								"schema_version":      1,
+								"type":                "aws_key_pair",
+							},
+							{
+								"address": "aws_security_group.default",
+								"expressions": {
+									"name_prefix": {
+										"references": [
+											"var.identity",
+										],
+									},
+									"tags": {
+										"references": [
+											"var.identity",
+										],
+									},
+								},
+								"mode":                "managed",
+								"name":                "default",
+								"provider_config_key": "server:aws",
+								"schema_version":      1,
+								"type":                "aws_security_group",
+							},
+						],
+						"variables": {
+							"ami": {
+								"description": "Base machine image for running this server",
+							},
+							"identity": {
+								"description": "A unique name for this server",
+							},
+							"ingress_cidr": {
+								"description": "IP address block from which connections to this instance will be made",
+							},
+							"num_webs": {
+								"default":     1,
+								"description": "The number of servers to create",
+							},
+							"private_key": {
+								"description": "Contents of the private key used to connect to this instance",
+							},
+							"public_key": {
+								"description": "Contents of the public key used to connect to this instance",
+							},
+						},
+					},
+					"source": "./server",
+				},
+			},
+			"outputs": {
+				"public_dns": {
+					"expression": {
+						"references": [
+							"module.server.public_dns",
+						],
+					},
+				},
+				"public_ip": {
+					"expression": {
+						"references": [
+							"module.server.public_ip",
+						],
+					},
+				},
+			},
+			"variables": {
+				"ami": {
+					"default":     "ami-c62eaabe",
+					"description": "The Amazon Machine Image for new instances.",
+				},
+				"identity": {
+					"description": "A unique name for your resources",
+				},
+				"ingress_cidr": {
+					"default":     "0.0.0.0/0",
+					"description": "IP block from which connections to this instance will be made",
+				},
+				"num_webs": {
+					"default":     "1",
+					"description": "The number of servers to run",
+				},
+				"private_key": {
+					"description": "Contents of the private key used to connect to this instance",
+				},
+				"public_key": {
+					"description": "Contents of the public key used to connect to this instance",
+				},
+			},
+		},
+	},
+	"format_version": "0.1",
+	"output_changes": {
+		"public_dns": {
+			"actions": [
+				"create",
+			],
+			"after_unknown": true,
+			"before":        null,
+		},
+		"public_ip": {
+			"actions": [
+				"create",
+			],
+			"after_unknown": true,
+			"before":        null,
+		},
+	},
+	"planned_values": {
+		"outputs": {
+			"public_dns": {
+				"sensitive": false,
+			},
+			"public_ip": {
+				"sensitive": false,
+			},
+		},
+		"root_module": {
+			"child_modules": [
+				{
+					"address": "module.server",
+					"resources": [
+						{
+							"address":        "module.server.aws_instance.web[0]",
+							"index":          0,
+							"mode":           "managed",
+							"name":           "web",
+							"provider_name":  "aws",
+							"schema_version": 1,
+							"type":           "aws_instance",
+							"values": {
+								"ami": "ami-0735ea082a1534cac",
+								"credit_specification":                 [],
+								"disable_api_termination":              null,
+								"ebs_optimized":                        null,
+								"get_password_data":                    false,
+								"hibernation":                          null,
+								"iam_instance_profile":                 null,
+								"instance_initiated_shutdown_behavior": null,
+								"instance_type":                        "t2.medium",
+								"monitoring":                           null,
+								"source_dest_check":                    true,
+								"tags": {
+									"Identity": "fox",
+									"Name":     "fox web 1/1",
+								},
+								"timeouts":         null,
+								"user_data":        null,
+								"user_data_base64": null,
+							},
+						},
+						{
+							"address":        "module.server.aws_key_pair.default",
+							"mode":           "managed",
+							"name":           "default",
+							"provider_name":  "aws",
+							"schema_version": 1,
+							"type":           "aws_key_pair",
+							"values": {
+								"key_name":        "fox-key",
+								"key_name_prefix": null,
+								"public_key":      "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+								"tags":            null,
+							},
+						},
+						{
+							"address":        "module.server.aws_security_group.default",
+							"mode":           "managed",
+							"name":           "default",
+							"provider_name":  "aws",
+							"schema_version": 1,
+							"type":           "aws_security_group",
+							"values": {
+								"description": "Managed by Terraform",
+								"egress": [
+									{
+										"cidr_blocks": [
+											"0.0.0.0/0",
+										],
+										"description":      "",
+										"from_port":        0,
+										"ipv6_cidr_blocks": [],
+										"prefix_list_ids":  [],
+										"protocol":         "-1",
+										"security_groups":  [],
+										"self":             false,
+										"to_port":          0,
+									},
+								],
+								"ingress": [
+									{
+										"cidr_blocks": [
+											"0.0.0.0/0",
+										],
+										"description":      "",
+										"from_port":        22,
+										"ipv6_cidr_blocks": [],
+										"prefix_list_ids":  [],
+										"protocol":         "tcp",
+										"security_groups":  [],
+										"self":             false,
+										"to_port":          22,
+									},
+									{
+										"cidr_blocks": [
+											"0.0.0.0/0",
+										],
+										"description":      "",
+										"from_port":        80,
+										"ipv6_cidr_blocks": [],
+										"prefix_list_ids":  [],
+										"protocol":         "tcp",
+										"security_groups":  [],
+										"self":             false,
+										"to_port":          80,
+									},
+								],
+								"name_prefix":            "fox",
+								"revoke_rules_on_delete": false,
+								"tags": {
+									"Created-by": "Terraform",
+									"Identity":   "fox",
+								},
+								"timeouts": null,
+							},
+						},
+					],
+				},
+			],
+		},
+	},
+	"prior_state": {
+		"format_version":    "0.1",
+		"terraform_version": "0.12.25",
+		"values": {
+			"outputs": {
+				"public_dns": {
+					"sensitive": false,
+					"value": [
+						null,
+					],
+				},
+				"public_ip": {
+					"sensitive": false,
+					"value": [
+						null,
+					],
+				},
+			},
+			"root_module": {},
+		},
+	},
+	"resource_changes": [
+		{
+			"address": "module.server.aws_instance.web[0]",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"ami": "ami-0735ea082a1534cac",
+					"credit_specification":                 [],
+					"disable_api_termination":              null,
+					"ebs_optimized":                        null,
+					"get_password_data":                    false,
+					"hibernation":                          null,
+					"iam_instance_profile":                 null,
+					"instance_initiated_shutdown_behavior": null,
+					"instance_type":                        "t2.medium",
+					"monitoring":                           null,
+					"source_dest_check":                    true,
+					"tags": {
+						"Identity": "fox",
+						"Name":     "fox web 1/1",
+					},
+					"timeouts":         null,
+					"user_data":        null,
+					"user_data_base64": null,
+				},
+				"after_unknown": {
+					"arn": true,
+					"associate_public_ip_address":  true,
+					"availability_zone":            true,
+					"cpu_core_count":               true,
+					"cpu_threads_per_core":         true,
+					"credit_specification":         [],
+					"ebs_block_device":             true,
+					"ephemeral_block_device":       true,
+					"host_id":                      true,
+					"id":                           true,
+					"instance_state":               true,
+					"ipv6_address_count":           true,
+					"ipv6_addresses":               true,
+					"key_name":                     true,
+					"metadata_options":             true,
+					"network_interface":            true,
+					"network_interface_id":         true,
+					"outpost_arn":                  true,
+					"password_data":                true,
+					"placement_group":              true,
+					"primary_network_interface_id": true,
+					"private_dns":                  true,
+					"private_ip":                   true,
+					"public_dns":                   true,
+					"public_ip":                    true,
+					"root_block_device":            true,
+					"security_groups":              true,
+					"subnet_id":                    true,
+					"tags":                         {},
+					"tenancy":                      true,
+					"volume_tags":                  true,
+					"vpc_security_group_ids":       true,
+				},
+				"before": null,
+			},
+			"index":          0,
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "web",
+			"provider_name":  "aws",
+			"type":           "aws_instance",
+		},
+		{
+			"address": "module.server.aws_key_pair.default",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"key_name":        "fox-key",
+					"key_name_prefix": null,
+					"public_key":      "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+					"tags":            null,
+				},
+				"after_unknown": {
+					"fingerprint": true,
+					"id":          true,
+					"key_pair_id": true,
+				},
+				"before": null,
+			},
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "default",
+			"provider_name":  "aws",
+			"type":           "aws_key_pair",
+		},
+		{
+			"address": "module.server.aws_security_group.default",
+			"change": {
+				"actions": [
+					"create",
+				],
+				"after": {
+					"description": "Managed by Terraform",
+					"egress": [
+						{
+							"cidr_blocks": [
+								"0.0.0.0/0",
+							],
+							"description":      "",
+							"from_port":        0,
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"protocol":         "-1",
+							"security_groups":  [],
+							"self":             false,
+							"to_port":          0,
+						},
+					],
+					"ingress": [
+						{
+							"cidr_blocks": [
+								"0.0.0.0/0",
+							],
+							"description":      "",
+							"from_port":        22,
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"protocol":         "tcp",
+							"security_groups":  [],
+							"self":             false,
+							"to_port":          22,
+						},
+						{
+							"cidr_blocks": [
+								"0.0.0.0/0",
+							],
+							"description":      "",
+							"from_port":        80,
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"protocol":         "tcp",
+							"security_groups":  [],
+							"self":             false,
+							"to_port":          80,
+						},
+					],
+					"name_prefix":            "fox",
+					"revoke_rules_on_delete": false,
+					"tags": {
+						"Created-by": "Terraform",
+						"Identity":   "fox",
+					},
+					"timeouts": null,
+				},
+				"after_unknown": {
+					"arn": true,
+					"egress": [
+						{
+							"cidr_blocks": [
+								false,
+							],
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"security_groups":  [],
+						},
+					],
+					"id": true,
+					"ingress": [
+						{
+							"cidr_blocks": [
+								false,
+							],
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"security_groups":  [],
+						},
+						{
+							"cidr_blocks": [
+								false,
+							],
+							"ipv6_cidr_blocks": [],
+							"prefix_list_ids":  [],
+							"security_groups":  [],
+						},
+					],
+					"name":     true,
+					"owner_id": true,
+					"tags":     {},
+					"vpc_id":   true,
+				},
+				"before": null,
+			},
+			"mode":           "managed",
+			"module_address": "module.server",
+			"name":           "default",
+			"provider_name":  "aws",
+			"type":           "aws_security_group",
+		},
+	],
+	"terraform_version": "0.12.25",
+	"variables": {
+		"ami": {
+			"value": "ami-0735ea082a1534cac",
+		},
+		"identity": {
+			"value": "fox",
+		},
+		"ingress_cidr": {
+			"value": "0.0.0.0/0",
+		},
+		"num_webs": {
+			"value": "1",
+		},
+		"private_key": {
+			"value": "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQCNhoNqeaK+eJnULuoqpCPGmLF2KtUeGxOwpm+GdmdW+3PkmfNp\naqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ssb2t7UaNiTdtNzKJ+PLmMYjjY\nvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXEF8RSGHc1Ogv7BJdJlwIDAQAB\nAoGATjhwXeMInfmOHAYqCpNZ6qPuQX9+9vrEMThsH4dFqn+kGE82h6cV8hU1X5UB\nQXC64HOZMo+bVHfcfgSDPEpYL7bIvWUd4J15ZmZlMVnIFz9gwAuj32/gFQZRjulr\nnjMJYJdf20BV09ULeRkmrAWLHHBNE0SvtwV5S/1YqCx4XyECQQD+uTPXUsoXwwEs\nW6RpVKXBJRLQTVD0n4BojrLj2UalijLstj0UUZS1nuuDj198IUGpbKg6ugpxabnk\n0jN1u3lJAkEAjjwVXCeii1nQh9p+zmUs4wxxdCb18ewNzikm8OkphiEXWwaSNKMQ\nl/dNCh/7AfCrBacfjetXHz2kyVcyrf6L3wJAV16RAIc+GD5j1aItV4+YNxKPTHFo\nli9rbPGdPHfXOoqXgwfTFXgSCOXUpFB2EO6bRhCl91a+pD3+bBUJX5WJOQJACLWb\nJTp0FI5aW4dAjojZd8myRMeB9d9bdQ1GCihs1369PGCpoTl+8Z8+A2mz6AmBn2X9\nY6ZOfmY66e1B+C+HBwJBAMvMGRVpY2BkNRrkwjn2O4BDWJv5Oma/OQPB/3IM1ZBw\nBmO1e8FKFalkEuAaVNXgDZzmhm93LIeAG327RpWoU1Q=\n-----END RSA PRIVATE KEY-----",
+		},
+		"public_key": {
+			"value": "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCNhoNqeaK+eJnULuoqpCPGmLF2\nKtUeGxOwpm+GdmdW+3PkmfNpaqHMUPY1wh9lqMK7njJy+vBaX7N8cCDMi6ElZ2ss\nb2t7UaNiTdtNzKJ+PLmMYjjYvooev12p7y6DGh/fm7eR7RI+5pgH/WSH4bOvncXE\nF8RSGHc1Ogv7BJdJlwIDAQAB\n-----END PUBLIC KEY-----",
+		},
+	},
+}

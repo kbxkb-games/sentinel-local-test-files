@@ -1,0 +1,61 @@
+created_at = "2020-05-16T20:32:43.682Z"
+message = "Merge pull request #2 from kbxkb-games/kbxkb-games-patch-2\n\nUpdate main.tf"
+speculative = false
+is_destroy = false
+
+variables = {
+	"AWS_ACCESS_KEY_ID": {
+		"category":  "env",
+		"sensitive": false,
+	},
+	"AWS_DEFAULT_REGION": {
+		"category":  "env",
+		"sensitive": false,
+	},
+	"AWS_SECRET_ACCESS_KEY": {
+		"category":  "env",
+		"sensitive": true,
+	},
+	"ami": {
+		"category":  "terraform",
+		"sensitive": false,
+	},
+	"identity": {
+		"category":  "terraform",
+		"sensitive": false,
+	},
+	"ingress_cidr": {
+		"category":  "terraform",
+		"sensitive": false,
+	},
+	"num_webs": {
+		"category":  "terraform",
+		"sensitive": false,
+	},
+	"private_key": {
+		"category":  "terraform",
+		"sensitive": true,
+	},
+	"public_key": {
+		"category":  "terraform",
+		"sensitive": true,
+	},
+}
+
+organization = {
+	"name": "koushik-org-1",
+}
+
+workspace = {
+	"auto_apply":  false,
+	"created_at":  "2020-05-16T20:21:15.487Z",
+	"description": null,
+	"name":        "demo-terraform-101-after-tfc",
+	"vcs_repo": {
+		"branch":             "after-tfc",
+		"display_identifier": "kbxkb-games/demo-terraform-101",
+		"identifier":         "kbxkb-games/demo-terraform-101",
+		"ingress_submodules": false,
+	},
+	"working_directory": "",
+}

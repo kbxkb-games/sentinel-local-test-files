@@ -1,0 +1,20 @@
+terraform_version = "0.12.25"
+
+outputs = {
+	"public_dns": {
+		"name":      "public_dns",
+		"sensitive": false,
+		"value": [
+			null,
+		],
+	},
+	"public_ip": {
+		"name":      "public_ip",
+		"sensitive": false,
+		"value": [
+			null,
+		],
+	},
+}
+
+resources = {}

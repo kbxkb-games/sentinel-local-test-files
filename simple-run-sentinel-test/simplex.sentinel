@@ -1,0 +1,5 @@
+main = rule { 
+	some_condition
+}
+
+some_condition = rule { me.lastname is "biswas" }

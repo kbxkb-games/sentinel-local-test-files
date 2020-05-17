@@ -1,0 +1,11 @@
+{
+	"global": {
+		"me": {
+			"firstname": "sanjeev",
+			"lastname": "de"
+		}
+	},
+	"test": {
+		"main": false
+	}
+}

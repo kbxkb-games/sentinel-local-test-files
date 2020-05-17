@@ -1,0 +1,10 @@
+
+{
+  "comments": "both absolute and relative file paths are allowed below",
+  "mock": {
+    "tfconfig": "/home/koushik/gcp/terraform/sentinel_stuff/sentinel_local/testdata/mock-tfconfig.sentinel",
+    "tfplan": "../testdata/mock-tfplan.sentinel",
+    "tfstate": "/home/koushik/gcp/terraform/sentinel_stuff/sentinel_local/testdata/mock-tfstate.sentinel"
+  }
+}
+

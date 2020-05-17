@@ -1,0 +1,339 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias":               "",
+		"config":              {},
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  "",
+	},
+}
+
+resources = {
+	"module.server.aws_instance.web": {
+		"address": "module.server.aws_instance.web",
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"instance_type": {
+				"constant_value": "t2.medium",
+			},
+			"key_name": {
+				"references": [
+					"aws_key_pair.default",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.identity",
+					"count.index",
+					"var.num_webs",
+					"var.identity",
+				],
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"aws_security_group.default",
+				],
+			},
+		},
+		"count": {
+			"references": [
+				"var.num_webs",
+			],
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.server",
+		"name":                "web",
+		"provider_config_key": "module.server:aws",
+		"provisioners": [
+			{
+				"config": {
+					"destination": {
+						"constant_value": "/tmp/",
+					},
+					"source": {
+						"constant_value": "assets",
+					},
+				},
+				"index":            0,
+				"resource_address": "module.server.aws_instance.web",
+				"type":             "file",
+			},
+			{
+				"config": {
+					"inline": {
+						"constant_value": [
+							"sudo sh /tmp/assets/setup-web.sh",
+						],
+					},
+				},
+				"index":            1,
+				"resource_address": "module.server.aws_instance.web",
+				"type":             "remote-exec",
+			},
+		],
+		"type": "aws_instance",
+	},
+	"module.server.aws_key_pair.default": {
+		"address": "module.server.aws_key_pair.default",
+		"config": {
+			"key_name": {
+				"references": [
+					"var.identity",
+				],
+			},
+			"public_key": {
+				"references": [
+					"var.public_key",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.server",
+		"name":                "default",
+		"provider_config_key": "module.server:aws",
+		"provisioners":        [],
+		"type":                "aws_key_pair",
+	},
+	"module.server.aws_security_group.default": {
+		"address": "module.server.aws_security_group.default",
+		"config": {
+			"name_prefix": {
+				"references": [
+					"var.identity",
+				],
+			},
+			"tags": {
+				"references": [
+					"var.identity",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "module.server",
+		"name":                "default",
+		"provider_config_key": "module.server:aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+}
+
+provisioners = {
+	"module.server.aws_instance.web:0": {
+		"config": {
+			"destination": {
+				"constant_value": "/tmp/",
+			},
+			"source": {
+				"constant_value": "assets",
+			},
+		},
+		"index":            0,
+		"resource_address": "module.server.aws_instance.web",
+		"type":             "file",
+	},
+	"module.server.aws_instance.web:1": {
+		"config": {
+			"inline": {
+				"constant_value": [
+					"sudo sh /tmp/assets/setup-web.sh",
+				],
+			},
+		},
+		"index":            1,
+		"resource_address": "module.server.aws_instance.web",
+		"type":             "remote-exec",
+	},
+}
+
+variables = {
+	"ami": {
+		"default":        "ami-c62eaabe",
+		"description":    "The Amazon Machine Image for new instances.",
+		"module_address": "",
+		"name":           "ami",
+	},
+	"identity": {
+		"default":        null,
+		"description":    "A unique name for your resources",
+		"module_address": "",
+		"name":           "identity",
+	},
+	"ingress_cidr": {
+		"default":        "0.0.0.0/0",
+		"description":    "IP block from which connections to this instance will be made",
+		"module_address": "",
+		"name":           "ingress_cidr",
+	},
+	"module.server:ami": {
+		"default":        null,
+		"description":    "Base machine image for running this server",
+		"module_address": "module.server",
+		"name":           "ami",
+	},
+	"module.server:identity": {
+		"default":        null,
+		"description":    "A unique name for this server",
+		"module_address": "module.server",
+		"name":           "identity",
+	},
+	"module.server:ingress_cidr": {
+		"default":        null,
+		"description":    "IP address block from which connections to this instance will be made",
+		"module_address": "module.server",
+		"name":           "ingress_cidr",
+	},
+	"module.server:num_webs": {
+		"default":        1,
+		"description":    "The number of servers to create",
+		"module_address": "module.server",
+		"name":           "num_webs",
+	},
+	"module.server:private_key": {
+		"default":        null,
+		"description":    "Contents of the private key used to connect to this instance",
+		"module_address": "module.server",
+		"name":           "private_key",
+	},
+	"module.server:public_key": {
+		"default":        null,
+		"description":    "Contents of the public key used to connect to this instance",
+		"module_address": "module.server",
+		"name":           "public_key",
+	},
+	"num_webs": {
+		"default":        "1",
+		"description":    "The number of servers to run",
+		"module_address": "",
+		"name":           "num_webs",
+	},
+	"private_key": {
+		"default":        null,
+		"description":    "Contents of the private key used to connect to this instance",
+		"module_address": "",
+		"name":           "private_key",
+	},
+	"public_key": {
+		"default":        null,
+		"description":    "Contents of the public key used to connect to this instance",
+		"module_address": "",
+		"name":           "public_key",
+	},
+}
+
+outputs = {
+	"module.server:public_dns": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.server",
+		"name":           "public_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.web",
+			],
+		},
+	},
+	"module.server:public_ip": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "module.server",
+		"name":           "public_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.web",
+			],
+		},
+	},
+	"public_dns": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "",
+		"name":           "public_dns",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.server.public_dns",
+			],
+		},
+	},
+	"public_ip": {
+		"depends_on":     [],
+		"description":    "",
+		"module_address": "",
+		"name":           "public_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"module.server.public_ip",
+			],
+		},
+	},
+}
+
+module_calls = {
+	"server": {
+		"config": {
+			"ami": {
+				"references": [
+					"var.ami",
+				],
+			},
+			"identity": {
+				"references": [
+					"var.identity",
+				],
+			},
+			"ingress_cidr": {
+				"references": [
+					"var.ingress_cidr",
+				],
+			},
+			"num_webs": {
+				"references": [
+					"var.num_webs",
+				],
+			},
+			"private_key": {
+				"references": [
+					"var.private_key",
+				],
+			},
+			"public_key": {
+				"references": [
+					"var.public_key",
+				],
+			},
+		},
+		"count":              {},
+		"for_each":           {},
+		"module_address":     "",
+		"name":               "server",
+		"source":             "./server",
+		"version_constraint": "",
+	},
+}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}

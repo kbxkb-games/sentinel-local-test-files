@@ -1,0 +1,259 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {},
+		"modules": {
+			"server": {
+				"config": {},
+				"references": {
+					"ami": [
+						"var.ami",
+					],
+					"identity": [
+						"var.identity",
+					],
+					"ingress_cidr": [
+						"var.ingress_cidr",
+					],
+					"num_webs": [
+						"var.num_webs",
+					],
+					"private_key": [
+						"var.private_key",
+					],
+					"public_key": [
+						"var.public_key",
+					],
+				},
+				"source":  "./server",
+				"version": "",
+			},
+		},
+		"outputs": {
+			"public_dns": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.server.public_dns",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_ip": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"module.server.public_ip",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config":     {},
+						"references": {},
+						"version":    "",
+					},
+				},
+				"config":     {},
+				"references": {},
+				"version":    "",
+			},
+		},
+		"resources": {},
+		"variables": {
+			"ami": {
+				"default":     "ami-c62eaabe",
+				"description": "The Amazon Machine Image for new instances.",
+			},
+			"identity": {
+				"default":     null,
+				"description": "A unique name for your resources",
+			},
+			"ingress_cidr": {
+				"default":     "0.0.0.0/0",
+				"description": "IP block from which connections to this instance will be made",
+			},
+			"num_webs": {
+				"default":     "1",
+				"description": "The number of servers to run",
+			},
+			"private_key": {
+				"default":     null,
+				"description": "Contents of the private key used to connect to this instance",
+			},
+			"public_key": {
+				"default":     null,
+				"description": "Contents of the public key used to connect to this instance",
+			},
+		},
+	},
+
+	"module.server": {
+		"data":    {},
+		"modules": {},
+		"outputs": {
+			"public_dns": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"aws_instance.web",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"public_ip": {
+				"depends_on":  [],
+				"description": "",
+				"references": [
+					"aws_instance.web",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {},
+		"resources": {
+			"aws_instance": {
+				"web": {
+					"config": {
+						"instance_type": "t2.medium",
+					},
+					"provisioners": [
+						{
+							"config": {
+								"destination": "/tmp/",
+								"source":      "assets",
+							},
+							"references": {
+								"destination": [],
+								"source":      [],
+							},
+							"type": "file",
+						},
+						{
+							"config": {
+								"inline": [
+									"sudo sh /tmp/assets/setup-web.sh",
+								],
+							},
+							"references": {
+								"inline": [],
+							},
+							"type": "remote-exec",
+						},
+					],
+					"references": {
+						"ami": [
+							"var.ami",
+						],
+						"instance_type": [],
+						"key_name": [
+							"aws_key_pair.default",
+						],
+						"tags": [
+							"var.identity",
+							"count.index",
+							"var.num_webs",
+							"var.identity",
+						],
+						"vpc_security_group_ids": [
+							"aws_security_group.default",
+						],
+					},
+				},
+			},
+			"aws_key_pair": {
+				"default": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"key_name": [
+							"var.identity",
+						],
+						"public_key": [
+							"var.public_key",
+						],
+					},
+				},
+			},
+			"aws_security_group": {
+				"default": {
+					"config":       {},
+					"provisioners": null,
+					"references": {
+						"name_prefix": [
+							"var.identity",
+						],
+						"tags": [
+							"var.identity",
+						],
+					},
+				},
+			},
+		},
+		"variables": {
+			"ami": {
+				"default":     null,
+				"description": "Base machine image for running this server",
+			},
+			"identity": {
+				"default":     null,
+				"description": "A unique name for this server",
+			},
+			"ingress_cidr": {
+				"default":     null,
+				"description": "IP address block from which connections to this instance will be made",
+			},
+			"num_webs": {
+				"default":     1,
+				"description": "The number of servers to create",
+			},
+			"private_key": {
+				"default":     null,
+				"description": "Contents of the private key used to connect to this instance",
+			},
+			"public_key": {
+				"default":     null,
+				"description": "Contents of the public key used to connect to this instance",
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+	[
+		"server",
+	],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs
